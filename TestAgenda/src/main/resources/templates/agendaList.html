@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Agendas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Listagem de Agendas</h1>
+
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Descrição</th>
+            <th>Data</th>
+            <th>Status</th>
+            <th>Serviço</th>
+            <th>Cliente</th>
+            <th>Usuário</th>
+            <th>Funcionário</th>
+
+            <th class="text-center">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="agenda : ${agendas}">
+            <td th:text="${agenda.id}"></td>
+            <td th:text="${agenda.descricao}"></td>
+            <td th:text="${agenda.data}"></td>
+            <td th:text="${agenda.status}"></td>
+            <td th:text="${agenda.servico != null ? agenda.servico.nome : 'N/A'}"></td>
+            <td th:text="${agenda.cliente != null ? agenda.cliente.nome : 'N/A'}"></td>
+            <td th:text="${agenda.usuario != null ? agenda.usuario.nome : 'N/A'}"></td>
+            <td th:text="${agenda.funcionario != null ? agenda.funcionario.nome : 'N/A'}"></td>
+            <td class="text-center">
+                <a th:href="@{/agenda/edit/{id}(id=${agenda.id})}" class="btn btn-sm btn-warning">Editar</a>
+                <a th:href="@{/agenda/delete/{id}(id=${agenda.id})}" class="btn btn-sm btn-danger">Deletar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="text-center mt-3">
+        <a href="/add" class="btn btn-primary">Adicionar Nova Agenda</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar ou Editar Agenda</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4" th:text="${agenda.id == null ? 'Adicionar Nova Agenda' : 'Editar Agenda'}"></h1>
+
+    <form th:action="@{/agenda/save}" th:object="${agenda}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="descricao">Descrição:</label>
+            <input type="text" id="descricao" class="form-control" th:field="*{descricao}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="data">Data:</label>
+            <input type="date" id="data" class="form-control" th:field="*{data}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="data">Status:</label>
+            <select id="status" class="form-control" th:field="*{status}">
+                <option th:value="EM_ANDAMENTO" th:text="'Em andamento'"></option>
+                <option th:value="FINALIZADO" th:text="'Finalizado'"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="servico">Serviço:</label>
+            <select id="servico" class="form-control" th:field="*{servico}">
+                <option th:each="servico : ${servicos}" th:value="${servico.id}" th:text="${servico.nome}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="cliente">Cliente:</label>
+            <select id="cliente" class="form-control" th:field="*{cliente}">
+                <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nome}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="usuario">Usuário:</label>
+            <select id="usuario" class="form-control" th:field="*{usuario}">
+                <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.nome}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="funcionario">Funcionário:</label>
+            <select id="funcionario" class="form-control" th:field="*{funcionario}">
+                <option th:each="funcionario : ${funcionarios}" th:value="${funcionario.id}" th:text="${funcionario.nome}"></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Salvar</button>
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="/" class="btn btn-secondary">Voltar para Lista</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
