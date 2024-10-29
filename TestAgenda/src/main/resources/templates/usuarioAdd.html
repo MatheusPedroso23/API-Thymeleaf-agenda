@@ -32,7 +32,7 @@
         <div class="form-group">
             <label for="tipoAcesso">Tipo Acesso:</label>
             <select id="tipoAcesso" class="form-control" th:field="*{tipoAcesso}">
-                <option th:each="tipoAcesso : ${tipoAcesso}" th:value="${tipoAcesso}" th:text="${tipoAcesso.descricao}"></option>
+                <option th:each="tipoAcesso : ${tipoAcessos}" th:value="${tipoAcesso.id}" th:text="${tipoAcesso.descricao}"></option>
             </select>
         </div>
 
@@ -41,6 +41,8 @@
 
     <div class="text-center mt-3">
         <a href="/usuarios" class="btn btn-secondary">Voltar para Lista</a>
+        <a href="/" class="btn btn-secondary">Voltar para Tela de Inicio</a>
+
     </div>
 </div>
 

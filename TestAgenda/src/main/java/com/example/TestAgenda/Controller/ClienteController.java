@@ -1,6 +1,7 @@
 package com.example.TestAgenda.Controller;
 
 import com.example.TestAgenda.Models.Cliente;
+import com.example.TestAgenda.Models.Endereco;
 import com.example.TestAgenda.Repository.*;
 import com.example.TestAgenda.Service.ClienteService;
 import com.example.TestAgenda.Service.EnderecoService;
@@ -53,7 +54,6 @@ public class ClienteController {
         return mv;
     }
 
-    // Vai para a tela de adição de usuário
     @GetMapping("/cliente/add")
     public ModelAndView add(Cliente cliente) {
         ModelAndView mv = new ModelAndView("clienteAdd");
@@ -63,23 +63,19 @@ public class ClienteController {
     }
 
 
-    // Vai para a tela de edição de usuário (mesma tela de adição, mas com um objeto existente)
     @GetMapping("/cliente/edit/{id}")
     public String editarCliente(@PathVariable Long id, Model model) {
-        Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + id));
+        Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + id));
         model.addAttribute("cliente", cliente);
         return "clienteAdd";
     }
 
-    // Exclui um usuário pelo ID e redireciona para a tela principal
     @GetMapping("/cliente/delete/{id}")
     public ModelAndView delete(@PathVariable("id") Long id) {
         clienteService.delete(id);
         return findAll();
     }
 
-    // Recebe um objeto preenchido do Thymeleaf e valida. Se estiver ok, salva e redireciona
     @PostMapping("/cliente/save")
     public ModelAndView save(Cliente cliente, BindingResult result) {
         if (result.hasErrors()) {

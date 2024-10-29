@@ -3,6 +3,7 @@ package com.example.TestAgenda.Controller;
 
 
 import com.example.TestAgenda.Models.Agenda;
+import com.example.TestAgenda.Models.Status;
 import com.example.TestAgenda.Models.Usuario;
 import com.example.TestAgenda.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+
 
 import java.util.List;
 
@@ -36,7 +39,8 @@ public class AgendaController {
     private com.example.TestAgenda.Services.AgendaService agendaService;
 
 
-    // Vai para tela principal do CRUD onde são listadas todas as agendas
+
+
     @GetMapping("/")
     public ModelAndView findAll() {
         ModelAndView mv = new ModelAndView("agendaList");
@@ -45,7 +49,6 @@ public class AgendaController {
         return mv;
     }
 
-    // Vai para a tela de adição de agenda
     @GetMapping("/add")
     public ModelAndView add(Agenda agenda) {
         ModelAndView mv = new ModelAndView("agendaAdd");
@@ -57,20 +60,25 @@ public class AgendaController {
         return mv;
     }
 
-    // Vai para a tela de edição de agenda (mesma tela de adição, mas com um objeto existente)
     @GetMapping("/agenda/edit/{id}")
     public ModelAndView edit(@PathVariable("id") Long id) {
+        Agenda agenda = agendaService.findOne(id).orElseThrow(() -> new IllegalArgumentException("Agenda nao encontrada"));
+        if (agenda.getStatus() == Status.FINALIZADO) {
+            throw  new IllegalStateException("Não é permitido excluir uma agenda com o status FINALIZADO.");
+        }
         return add(agendaService.findOne(id).orElse(new Agenda()));
     }
 
-    // Exclui uma agenda pelo ID e redireciona para a tela principal
     @GetMapping("/agenda/delete/{id}")
     public ModelAndView delete(@PathVariable("id") Long id) {
+        Agenda agenda = agendaService.findOne(id).orElseThrow(() -> new IllegalArgumentException("Agenda nao encontrada"));
+        if (agenda.getStatus() == Status.FINALIZADO) {
+            throw new IllegalStateException("Não é permitido excluir uma agenda com status FINALIZADO.");
+        }
         agendaService.delete(id);
         return findAll();
     }
 
-    // Recebe um objeto preenchido do Thymeleaf e valida. Se estiver ok, salva e redireciona
     @PostMapping("/agenda/save")
     public ModelAndView save(Agenda agenda, BindingResult result) {
         if (result.hasErrors()) {
@@ -84,5 +92,23 @@ public class AgendaController {
         agendaRepository.save(agenda);
         return findAll();
 
+    }
+
+
+    // Tratamento de exceções para o controller
+    @ExceptionHandler(IllegalStateException.class)
+    public ModelAndView handleIllegalStateException(IllegalStateException ex) {
+        ModelAndView mv = new ModelAndView("agendaList");
+        mv.addObject("agendas", agendaService.findAll());
+        mv.addObject("errorMessage", ex.getMessage());
+        return mv;
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ModelAndView handleIllegalArgumentException(IllegalArgumentException ex) {
+        ModelAndView mv = new ModelAndView("agendaList");
+        mv.addObject("agendas", agendaService.findAll());
+        mv.addObject("errorMessage", ex.getMessage());
+        return mv;
     }
 }

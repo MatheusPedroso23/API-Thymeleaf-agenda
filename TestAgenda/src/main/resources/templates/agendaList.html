@@ -8,6 +8,17 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+
+<nav>
+    <ul>
+        <li><a href="/clientes">Cadastrar Cliente</a></li>
+        <li><a href="/usuarios">Cadastrar Usuário</a></li>
+        <li><a href="/tipoacesso">Cadastrar Tipo de Acesso</a></li>
+        <li><a href="/enderecos">Cadastrar Endereço</a></li>
+        <li><a href="/funcionarios">Cadastrar Funcionario</a></li>
+        <li><a href="/servico">Cadastrar Serviço</a></li>
+    </ul>
+</nav>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Listagem de Agendas</h1>
 
@@ -43,6 +54,10 @@
         </tr>
         </tbody>
     </table>
+
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
 
     <div class="text-center mt-3">
         <a href="/add" class="btn btn-primary">Adicionar Nova Agenda</a>

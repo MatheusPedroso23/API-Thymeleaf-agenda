@@ -12,6 +12,7 @@ public class Servico {
     private Long id;
     private String nome;
     private Double valor;
+    private boolean status = false;
 
     public Long getId() {
         return id;
@@ -35,5 +36,13 @@ public class Servico {
 
     public void setValor(Double valor) {
         this.valor = valor;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

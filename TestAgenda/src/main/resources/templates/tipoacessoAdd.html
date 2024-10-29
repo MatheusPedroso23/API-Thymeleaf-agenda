@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar ou Editar Acessos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4" th:text="${tipoacesso == null || tipoacesso.id == null ? 'Adicionar Novo Acesso' : 'Editar Acesso'}"></h1>
+
+    <form th:action="@{/tipoacesso/save}" th:object="${tipoacessos}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="descricao">Descrição:</label>
+            <input type="text" id="descricao" class="form-control" th:field="*{descricao}" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Salvar</button>
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="/tipoacesso" class="btn btn-secondary">Voltar para Lista</a>
+        <a href="/" class="btn btn-secondary">Voltar para Tela de Inicio</a>
+
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -30,7 +30,6 @@ public class UsuarioController {
     @Autowired
     private TipoAcessoService tipoAcessoService;
 
-    // Vai para a tela principal onde são listados todos os usuários
     @GetMapping("/usuarios")
     public ModelAndView findAll() {
         ModelAndView mv = new ModelAndView("usuarioList");
@@ -39,29 +38,25 @@ public class UsuarioController {
         return mv;
     }
 
-    // Vai para a tela de adição de usuário
     @GetMapping("/usuario/add")
     public ModelAndView add(Usuario usuario) {
         ModelAndView mv = new ModelAndView("usuarioAdd");
         mv.addObject("usuario", usuario);
-        mv.addObject("tipodeAcessos", tipoAcessoRepository.findAll());
+        mv.addObject("tipoAcessos", tipoAcessoRepository.findAll());
         return mv;
     }
 
-    // Vai para a tela de edição de usuário (mesma tela de adição, mas com um objeto existente)
     @GetMapping("/usuario/edit/{id}")
     public ModelAndView edit(@PathVariable("id") Long id) {
         return add(usuarioService.findOne(id).orElse(new Usuario()));
     }
 
-    // Exclui um usuário pelo ID e redireciona para a tela principal
     @GetMapping("/usuario/delete/{id}")
     public ModelAndView delete(@PathVariable("id") Long id) {
         usuarioService.delete(id);
         return findAll();
     }
 
-    // Recebe um objeto preenchido do Thymeleaf e valida. Se estiver ok, salva e redireciona
     @PostMapping("/usuario/save")
     public ModelAndView save(Usuario usuario, BindingResult result) {
         if (result.hasErrors()) {

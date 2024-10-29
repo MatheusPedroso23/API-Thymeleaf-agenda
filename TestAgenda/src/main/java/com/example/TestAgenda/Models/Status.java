@@ -1,6 +1,6 @@
-package com.example.TestAgenda.Models;
+        package com.example.TestAgenda.Models;
 
-public enum Status {
-        EM_ANDAMENTO,
-        FINALIZADO
-}
+        public enum Status {
+                EM_ANDAMENTO,
+                FINALIZADO
+        }

@@ -18,6 +18,7 @@ public class Endereco {
     private Integer numero;
     private String complemento;
 
+
     public Long getId() {
         return id;
     }
